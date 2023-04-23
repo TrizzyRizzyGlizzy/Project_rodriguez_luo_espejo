@@ -1,7 +1,5 @@
 <?php
-session_start();
   include("connection.php");
-  include("functions.php");
 
 // Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

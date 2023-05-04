@@ -11,7 +11,7 @@
 </head>
 <body style="background-color:lightgrey">
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark p-4" data-bs-theme="dark" style="background-color: darkblue;">
+    <nav class="navbar navbar-expand-lg navbar-dark p-4 fixed-top" data-bs-theme="dark" style="background-color: darkblue;">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
         <img src="https://sjcconnect.sjc.edu.bz/images/logo.png" alt="SJCJC Logo" width="30" height="30" class="d-inline-block align-text-top">
@@ -32,7 +32,7 @@
             <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Academics
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,33 +63,53 @@
     </div>
     </nav>
 </header>
-    <section class="m-4">
-    <?php
-include("connection.php");
+<section class="departments-section pt-5">
+  <div class="container-fluid pt-4">
+    <div class="row pt-3">
+      <div class="col-12 bg-primary p-5" style="min-height: 70vh">
+        <div class="department-card">
+          <div class="department-icon"><i class="bi bi-briefcase"></i></div>
+          <h3>Business</h3>
+          <p>Our business department offers programs in accounting, finance, marketing, and more.</p>
+          <a href="programs.php?department=bus" class="btn btn-light">Learn More</a>
+        </div>
+      </div>
+      <div class="col-12 bg-secondary p-5" style="min-height: 70vh">
+        <div class="department-card">
+          <div class="department-icon"><i class="bi bi-laptop"></i></div>
+          <h3>Computer Science</h3>
+          <p>Our computer science department offers programs in software development, data science, and more.</p>
+          <a href="programs.php?department=cs" class="btn btn-light">Learn More</a>
+        </div>
+      </div>
+      <div class="col-12 bg-success p-5" style="min-height: 70vh">
+        <div class="department-card">
+          <div class="department-icon"><i class="bi bi-book"></i></div>
+          <h3>Humanities & Education</h3>
+          <p>Our humanities & education department offers programs in English, history, education, and more.</p>
+          <a href="programs.php?department=humedu" class="btn btn-light">Learn More</a>
+        </div>
+      </div>
+      <div class="col-12 bg-danger p-5" style="min-height: 70vh">
+        <div class="department-card">
+          <div class="department-icon"><i class="bi bi-calculator"></i></div>
+          <h3>Math & Science</h3>
+          <p>Our math & science department offers programs in mathematics, physics, biology, and more.</p>
+          <a href="programs.php?department=mthsci" class="btn btn-light">Learn More</a>
+        </div>
+      </div>
+      <div class="col-12 p-5" style="min-height: 70vh; background-color: yellow;">
+        <div class="department-card">
+          <div class="department-icon"><i class="bi bi-calculator"></i></div>
+          <h3>Social Science</h3>
+          <p>Our math & science department offers programs in mathematics, physics, biology, and more.</p>
+          <a href="programs.php?department=soc" class="btn btn-light">Learn More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-// Check if keyword is set
-if(isset($_GET['keyword'])) {
-  $keyword = mysqli_real_escape_string($con, $_GET['keyword']);
-
-  // Search database
-  $query = "SELECT * FROM program_list WHERE degree_program LIKE '%$keyword%'";
-  $result = mysqli_query($con, $query);
-
-  // Display results
-  if(mysqli_num_rows($result) > 0) {
-    while($row = mysqli_fetch_assoc($result)) {
-      echo "<p>".$row['degree_program']."</p>";
-    }
-  } else {
-    echo "<script>alert('No results found.');</script>";
-  }
-}
-
-// Close database connection
-mysqli_close($con);
-?>
-
-    </section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

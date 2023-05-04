@@ -11,7 +11,7 @@
 </head>
 <body style="background-color:lightgrey">
 <header>
-    <nav class="navbar navbar-expand-lg navbar-dark p-4" data-bs-theme="dark" style="background-color: darkblue;">
+    <nav class="navbar navbar-expand-lg navbar-dark p-4 fixed-top" data-bs-theme="dark" style="background-color: darkblue;">
     <div class="container-fluid">
         <a class="navbar-brand" href="index.php">
         <img src="https://sjcconnect.sjc.edu.bz/images/logo.png" alt="SJCJC Logo" width="30" height="30" class="d-inline-block align-text-top">
@@ -32,7 +32,7 @@
             <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="d" data-bs-toggle="dropdown" aria-expanded="false">
                 Academics
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -63,33 +63,41 @@
     </div>
     </nav>
 </header>
-    <section class="m-4">
+<section class="mt-5">
+    <div class="mt-5 p-3">
+    <div class="container mt-5 pt-5">
+    <h2>List of Courses</h2>
+    <ul class="list-group">
     <?php
-include("connection.php");
+    include("connection.php");
+    {
+        if (isset($_GET['course'])){
+            $course = $_GET['course'];
+            $result = mysqli_query($con, "SELECT * FROM professional_courses WHERE Course_Title = '$course'");
+        } else {
+            $result = mysqli_query($con, "SELECT * FROM professional_courses");
+        }
 
-// Check if keyword is set
-if(isset($_GET['keyword'])) {
-  $keyword = mysqli_real_escape_string($con, $_GET['keyword']);
-
-  // Search database
-  $query = "SELECT * FROM program_list WHERE degree_program LIKE '%$keyword%'";
-  $result = mysqli_query($con, $query);
-
-  // Display results
-  if(mysqli_num_rows($result) > 0) {
-    while($row = mysqli_fetch_assoc($result)) {
-      echo "<p>".$row['degree_program']."</p>";
+        // Check if any results were found
+        if (mysqli_num_rows($result) == 0) {
+            echo 'No degree programs found in ' . $course;
+        } else {
+            // Loop through each row in the result set and display the degree program
+            echo '<ul class="list-group">';
+            while ($row = mysqli_fetch_assoc($result)) {
+                echo '<li class="list-group-item">' . '<h5>' . $row['Course_Title'] . '</h5>' . '</li>';
+            }
+            echo '</ul>';
+        }
     }
-  } else {
-    echo "<script>alert('No results found.');</script>";
-  }
-}
-
-// Close database connection
-mysqli_close($con);
-?>
-
-    </section>
+    ?>
+    </ul>
+    </div>
+    </div>
+</section>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
+
+

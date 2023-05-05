@@ -38,7 +38,7 @@
             // Loop through each row in the result set and display the degree program
             echo '<ul class="list-group">';
             while ($row = mysqli_fetch_assoc($result)) {
-                echo '<li class="list-group-item">' . '<h5>' . $row['degree_program'] . '</h5>' . '</li>';
+                echo '<li class="list-group-item">' . '<h5>' . $row['degree_program'] . '</h5>' . '      ' . $row['academic_track'] . '   ' . $row['department'] . '</li>';
             }
             echo '</ul>';
         }

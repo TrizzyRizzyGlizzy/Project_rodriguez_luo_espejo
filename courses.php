@@ -2,6 +2,7 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
   <?php
     include("connection.php");
+    session_start();
     include('header.php');
   ?>
 </header>
@@ -28,12 +29,12 @@
             $course = $_GET['course'];
             $result = mysqli_query($con, "SELECT * FROM professional_courses WHERE Course_Title = '$course'");
         } else {
-            $result = mysqli_query($con, "SELECT * FROM professional_courses");
+            header("Location: error.php");
         }
 
         // Check if any results were found
         if (mysqli_num_rows($result) == 0) {
-            echo 'No degree programs found in ' . $course;
+            header("Location: error.php");
         } else {
             // Loop through each row in the result set and display the degree program
             echo '<ul class="list-group">';
@@ -51,6 +52,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
-
+<?php include('footer.php');?>

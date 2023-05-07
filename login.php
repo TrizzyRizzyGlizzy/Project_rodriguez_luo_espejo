@@ -1,32 +1,42 @@
 <?php
     include("connection.php");
-if($_SERVER['REQUEST_METHOD'] == "POST") {
-    //check if post from forms was used
 
-    //read database
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+    if($_SERVER['REQUEST_METHOD'] == "POST") {
+        //check if post from forms was used
+        //read database
+        $email = $_POST['email'];
+        $password = $_POST['password'];
 
         //check email is correct
-        $query = "select * from users where User_Email = '$email' limit 1";
+        $query = "SELECT * FROM users WHERE User_Email = '$email' LIMIT 1";
         $result = mysqli_query($con, $query);
 
         //if email correct, check password
-        if($result) {
-            if($result && mysqli_num_rows($result) > 0) {
-                $user_data = mysqli_fetch_assoc($result);
-                if($user_data['User_Password'] === $password) {
-                    $_SESSION['user_id'] = $user_data['user_id'];
-                    header("Location: index.php");
-                    die;
-                }
+        if($result && mysqli_num_rows($result) > 0) {
+            $user_data = mysqli_fetch_assoc($result);
+            if($user_data['User_Password'] === $password) {
+                // Start a new session
+                session_start();
+                $_SESSION['user_id'] = $user_data['User_ID'];
+                $_SESSION['User_FName'] = $user_data['User_FName'];
+                header("Location: index.php");
+                die;
+            } else {
+                // Incorrect password
+                $error = "Incorrect password. Please try again.";
             }
+        } else {
+            // Email not found in database
+            $error = "Incorrect email. Please try again.";
         }
-        
-
     }
-
 ?>
+
+<!-- Display error message if login fails -->
+<?php if(isset($error)): ?>
+    <div class="alert alert-danger"><?php echo $error; ?></div>
+<?php endif; ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -51,17 +61,17 @@ if($_SERVER['REQUEST_METHOD'] == "POST") {
               </ul>
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="login" role="tabpanel" aria-labelledby="login-tab">
-                  <form action="login.php" method="post">
-                    <div class="mb-3">
-                      <label for="email" class="form-label">Email address</label>
-                      <input type="email" class="form-control" id="email" name="email" required>
-                    </div>
-                    <div class="mb-3">
-                      <label for="password" class="form-label">Password</label>
-                      <input type="password" class="form-control" id="password" name="password" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login</button>
-                  </form>
+                <form action="login.php" method="post">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
                 </div>
                 <div class="tab-pane fade" id="signup" role="tabpanel" aria-labelledby="signup-tab">
                     <form class="row g-3 needs-validation" novalidate action="register.php" method="post">

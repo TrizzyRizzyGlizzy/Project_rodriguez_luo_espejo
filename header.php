@@ -31,33 +31,31 @@
             <li class="nav-item">
             <a class="nav-link" href="contact.php">Contact</a>
             </li>
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Academics
-            </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="departments.php">Departments</a></li>
-                <li><a class="dropdown-item" href="programs.php">Degree Programs</a></li>
-                <li><a class="dropdown-item" href="courses.php">Courses</a></li>
-            </ul>
+            <li class="nav-item"s><a class="nav-link" href="programs.php">Degree Programs</a></li>
             </li>
         </ul>
         <form class="d-flex" role="search" method="get" action="search.php">
             <input class="form-control me-2" name="keyword" type="search" placeholder="Search..." aria-label="Search">
             <button class="btn btn-outline-light" type="submit">Search</button>
         </form>
-        <ul class="navbar-nav mb-3 p-1">
-            <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="profile.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle" aria-hidden="true"></i>
-            </a>
+        <?php
+    if(isset($_SESSION['user_id'])) {
+     echo   '<ul class="navbar-nav mb-3 p-1">
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="profile.php" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            ' . $_SESSION['User_FName'] . '</a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                 <li><a class="dropdown-item" href="profile.php">Profile</a></li>
-                <li><a class="dropdown-item" href="purchases.php">Purchases</a></li>
+                <li><a class="dropdown-item" href="textbook-orders.php">Textbook Orders</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="logout.php">Logout</a></li>
-            </ul>
-            </li>
+             </ul>';
+        } else {
+           echo '<ul class="navbar-nav mb-3 p-1">
+                    <a class="btn btn-dark ms-2" href="login.php">Login</a>
+                    </ul>';
+        }
+?>
         </ul>
         </div>
     </div>
